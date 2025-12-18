@@ -319,7 +319,7 @@ const Home = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-32 px-6 bg-gradient-to-br from-red-50 to-orange-50">
+      <section className="py-32 px-6 bg-gradient-to-br from-red-50 to-orange-50 overflow-hidden">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-20">
             <h2 
@@ -339,29 +339,29 @@ const Home = () => {
                 key={index}
                 className={`transition-all duration-700 ${
                   index === activeTestimonial
-                    ? 'opacity-100 transform translate-x-0'
-                    : 'opacity-0 absolute inset-0 transform translate-x-full'
+                    ? 'opacity-100 visible relative'
+                    : 'opacity-0 invisible absolute top-0 left-0 w-full'
                 }`}
               >
-                <div className="bg-white rounded-3xl shadow-2xl p-12 md:p-16">
+                <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 lg:p-16">
                   <div className="flex mb-6">
                     {[...Array(testimonial.rating)].map((_, i) => (
                       <Star key={i} className="w-6 h-6 fill-orange-500 text-orange-500" />
                     ))}
                   </div>
 
-                  <blockquote className="text-2xl md:text-3xl text-gray-800 mb-8 leading-relaxed italic" style={{ fontFamily: '"Lora", serif' }}>
+                  <blockquote className="text-xl md:text-2xl lg:text-3xl text-gray-800 mb-8 leading-relaxed italic" style={{ fontFamily: '"Lora", serif' }}>
                     "{testimonial.text}"
                   </blockquote>
 
-                  <div className="flex items-center justify-between flex-wrap gap-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
                       <div className="text-xl font-bold text-gray-900" style={{ fontFamily: '"Playfair Display", serif' }}>
                         {testimonial.name}
                       </div>
                       <div className="text-orange-600 font-medium">{testimonial.country}</div>
                     </div>
-                    <div className="px-6 py-3 bg-orange-50 rounded-full text-orange-700 font-semibold">
+                    <div className="px-6 py-3 bg-orange-50 rounded-full text-orange-700 font-semibold w-fit">
                       {testimonial.program}
                     </div>
                   </div>
@@ -375,10 +375,10 @@ const Home = () => {
                 <button
                   key={index}
                   onClick={() => setActiveTestimonial(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  className={`h-3 rounded-full transition-all duration-300 ${
                     index === activeTestimonial
                       ? 'bg-orange-600 w-12'
-                      : 'bg-orange-200 hover:bg-orange-300'
+                      : 'bg-orange-200 hover:bg-orange-300 w-3'
                   }`}
                   aria-label={`View testimonial ${index + 1}`}
                 ></button>
