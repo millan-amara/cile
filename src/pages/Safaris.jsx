@@ -441,10 +441,10 @@ const Safaris = () => {
                 Teach & Explore
               </h3>
               <p className="text-gray-600 mb-6">2 weeks teaching + 3 days Maasai Mara</p>
-              <div className="text-3xl font-bold text-orange-600 mb-6">$950</div>
-              <div className="px-4 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold inline-block mb-6">
+              <div className="text-3xl font-bold text-orange-600 mb-6">$400</div>
+              {/* <div className="px-4 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold inline-block mb-6">
                 Save $150!
-              </div>
+              </div> */}
               <button 
                 onClick={() => handleViewDetails('maasai-mara')}
                 className="w-full px-6 py-3 bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-full font-semibold hover:shadow-lg transition-all hover:scale-105"
@@ -453,8 +453,8 @@ const Safaris = () => {
               </button>
             </div>
 
-            <div className="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border-4 border-blue-400 relative">
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-blue-600 text-white rounded-full text-sm font-semibold">
+            <div className="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border-4 border-red-400 relative">
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-red-600 text-white rounded-full text-sm font-semibold">
                 MOST POPULAR
               </div>
               <div className="w-full h-48 overflow-hidden rounded-xl mb-6">
@@ -468,10 +468,10 @@ const Safaris = () => {
                 Farm & Coast
               </h3>
               <p className="text-gray-600 mb-6">3 weeks farming + Wasini Island + Secret Beach</p>
-              <div className="text-3xl font-bold text-orange-600 mb-6">$850</div>
-              <div className="px-4 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold inline-block mb-6">
+              <div className="text-3xl font-bold text-orange-600 mb-6">$400</div>
+              {/* <div className="px-4 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold inline-block mb-6">
                 Save $120!
-              </div>
+              </div> */}
               <button 
                 onClick={() => handleViewDetails('wasini')}
                 className="w-full px-6 py-3 bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-full font-semibold hover:shadow-lg transition-all hover:scale-105"
@@ -492,10 +492,10 @@ const Safaris = () => {
                 Care & Relax
               </h3>
               <p className="text-gray-600 mb-6">4 weeks healthcare + Beach retreat</p>
-              <div className="text-3xl font-bold text-orange-600 mb-6">$980</div>
-              <div className="px-4 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold inline-block mb-6">
+              <div className="text-3xl font-bold text-orange-600 mb-6">$400</div>
+              {/* <div className="px-4 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold inline-block mb-6">
                 Save $100!
-              </div>
+              </div> */}
               <button 
                 onClick={() => handleViewDetails('secret-beach')}
                 className="w-full px-6 py-3 bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-full font-semibold hover:shadow-lg transition-all hover:scale-105"
@@ -755,10 +755,10 @@ const Safaris = () => {
                           </div>
                         </div>
 
-                        <button className="w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-teal-600 text-white rounded-full font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2 group/book">
+                        {/* <button className="w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-teal-600 text-white rounded-full font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2 group/book">
                           Book This Adventure
                           <ArrowRight className="w-5 h-5 group-hover/book:translate-x-1 transition-transform duration-300" />
-                        </button>
+                        </button> */}
 
                         <p className="text-sm text-gray-500 text-center mt-4">
                           Can be combined with volunteer programs
