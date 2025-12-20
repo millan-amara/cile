@@ -22,11 +22,7 @@ const Programs = () => {
       },
       accommodation: 'Host family or volunteer house',
       meals: 'Three meals daily (local cuisine)',
-      pricing: {
-        twoWeeks: '$450',
-        fourWeeks: '$750',
-        twelveWeeks: '$1,800'
-      },
+      pricing: '$400',
       included: [
         'Pre-departure orientation',
         'Airport pickup and drop-off',
@@ -67,11 +63,7 @@ const Programs = () => {
       },
       accommodation: 'Farmstay with host family',
       meals: 'Three meals daily (farm-fresh organic food)',
-      pricing: {
-        twoWeeks: '$400',
-        fourWeeks: '$650',
-        eightWeeks: '$1,200'
-      },
+      pricing: '$400',
       included: [
         'Agricultural training and orientation',
         'Airport pickup and drop-off',
@@ -112,11 +104,7 @@ const Programs = () => {
       },
       accommodation: 'Shared volunteer house near clinic',
       meals: 'Three meals daily',
-      pricing: {
-        fourWeeks: '$800',
-        eightWeeks: '$1,400',
-        sixteenWeeks: '$2,400'
-      },
+      pricing: '$400',
       included: [
         'Medical facility placement',
         'Airport pickup and drop-off',
@@ -157,12 +145,7 @@ const Programs = () => {
       },
       accommodation: 'Traditional home with host family',
       meals: 'All meals with host family (traditional Kenyan cuisine)',
-      pricing: {
-        oneWeek: '$300',
-        twoWeeks: '$500',
-        fourWeeks: '$800',
-        eightWeeks: '$1,400'
-      },
+      pricing: '$400',
       included: [
         'Carefully matched host family',
         'Airport pickup and drop-off',
@@ -192,7 +175,7 @@ const Programs = () => {
   const ProgramIcon = currentProgram.icon;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-red-50">
+    <div className="min-h-screen bg-linear-to-br from-amber-50 via-orange-50 to-red-50">
       {/* Hero Section */}
       <section className="relative py-32 px-6 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
@@ -406,22 +389,22 @@ const Programs = () => {
                 <div className="mt-8 pt-8 border-t-2 border-gray-100">
                   <div className="flex items-center gap-2 mb-4">
                     <DollarSign className="w-6 h-6 text-orange-600" />
-                    <h4 className="font-bold text-gray-900">Program Fees</h4>
+                    <h4 className="font-bold text-gray-900">Program Fees: <span className="font-bold text-orange-600 text-lg">$400</span></h4>
                   </div>
-                  <div className="space-y-3">
+                  {/* <div className="space-y-3">
                     {Object.entries(currentProgram.pricing).map(([duration, price], idx) => (
                       <div key={idx} className="flex justify-between items-center p-3 bg-orange-50 rounded-lg">
                         <span className="text-gray-700 capitalize">{duration.replace(/([A-Z])/g, ' $1').trim()}</span>
                         <span className="font-bold text-orange-600 text-lg">{price}</span>
                       </div>
                     ))}
-                  </div>
+                  </div> */}
                 </div>
 
-                <button className="w-full mt-8 px-8 py-4 bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-full font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2">
+                {/* <button className="w-full mt-8 px-8 py-4 bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-full font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2">
                   Apply for This Program
                   <ArrowRight className="w-5 h-5" />
-                </button>
+                </button> */}
               </div>
 
               {/* Requirements */}
@@ -453,12 +436,12 @@ const Programs = () => {
             We're here to help you find the perfect program for your goals
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <button className="px-10 py-5 bg-white text-orange-700 rounded-full font-bold shadow-2xl hover:scale-105 transition-all duration-300">
+            <a href='/contact' className="px-10 py-5 bg-white text-orange-700 rounded-full font-bold shadow-2xl hover:scale-105 transition-all duration-300">
               Contact Us
-            </button>
-            <button className="px-10 py-5 border-2 border-white rounded-full font-bold hover:bg-white hover:text-orange-700 transition-all duration-300">
+            </a>
+            {/* <button className="px-10 py-5 border-2 border-white rounded-full font-bold hover:bg-white hover:text-orange-700 transition-all duration-300">
               Download Brochure
-            </button>
+            </button> */}
           </div>
         </div>
       </section>

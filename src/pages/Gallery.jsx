@@ -1,282 +1,152 @@
-import { useState } from 'react';
-import { X, Heart, Share2, Download, Camera, Users, MapPin } from 'lucide-react';
+import { useState, useMemo, useEffect } from 'react';
+import { Camera, Users, MapPin } from 'lucide-react';
 
 const Gallery = () => {
-  const [selectedImage, setSelectedImage] = useState(null);
   const [activeCategory, setActiveCategory] = useState('all');
+  const [loadedImages, setLoadedImages] = useState({});
+
+  // Your Cloudinary images
+  const cloudinaryImages = [
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082704/cile/IMG-20251216-WA0024_ogldpt.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082702/cile/IMG-20251216-WA0022_yy8rgs.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082690/cile/IMG-20251216-WA0020_gfc94z.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082690/cile/IMG-20251216-WA0023_vyyz0f.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082685/cile/IMG-20251216-WA0064_t5yitl.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082682/cile/IMG-20251216-WA0021_t3gu9k.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082677/cile/IMG-20251216-WA0029_ssfxio.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082662/cile/IMG-20251216-WA0073_vwr9f2.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082657/cile/IMG-20251216-WA0074_sdu5lg.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082657/cile/IMG-20251216-WA0030_zaey5b.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082656/cile/IMG-20251216-WA0071_qvz8mk.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082653/cile/IMG-20251216-WA0028_j7edxs.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082646/cile/IMG-20251216-WA0072_bzocrw.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082640/cile/IMG-20251216-WA0025_jmcjyk.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082634/cile/IMG-20251216-WA0069_lcksx5.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082630/cile/IMG-20251216-WA0026_xzyhp0.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082629/cile/IMG-20251216-WA0070_qzbgfd.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082625/cile/IMG-20251216-WA0067_yhwh9y.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082620/cile/IMG-20251216-WA0068_cusikv.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082615/cile/IMG-20251216-WA0065_uwuzo3.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082599/cile/IMG-20251216-WA0066_gjs6rt.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082593/cile/IMG-20251216-WA0012_yuruwt.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082593/cile/IMG-20251216-WA0013_oeez9y.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082592/cile/IMG-20251216-WA0053_duvvsj.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082592/cile/IMG-20251216-WA0014_yta9l8.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082591/cile/IMG-20251216-WA0009_dvbyae.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082589/cile/IMG-20251216-WA0010_nfeuhn.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082576/cile/IMG-20251216-WA0054_cfybd4.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082573/cile/IMG-20251216-WA0062_umbz5i.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082571/cile/IMG-20251216-WA0018_dtjvee.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082571/cile/IMG-20251216-WA0019_i5ywkt.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082569/cile/IMG-20251216-WA0063_qkhgdo.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082549/cile/IMG-20251216-WA0017_rnafh3.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082549/cile/IMG-20251216-WA0016_ovhdna.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082549/cile/IMG-20251216-WA0060_djquju.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082548/cile/IMG-20251216-WA0061_tubyfe.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082547/cile/IMG-20251216-WA0058_xtofuy.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082546/cile/IMG-20251216-WA0015_igqim2.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082518/cile/IMG-20251216-WA0056_xlsar6.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082517/cile/IMG-20251216-WA0059_ii14su.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082515/cile/IMG-20251216-WA0075_nesska.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082515/cile/IMG-20251216-WA0057_c6udyp.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082514/cile/IMG-20251216-WA0079_yyxpoa.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082514/cile/IMG-20251216-WA0055_tz9osf.jpg",
+    "https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082444/cile/IMG-20251216-WA0035_nqjhdt.jpg"
+  ];
 
   const categories = [
-    { id: 'all', name: 'All Photos', icon: '📸' },
-    { id: 'education', name: 'Education', icon: '📚' },
-    { id: 'farming', name: 'Farming', icon: '🌾' },
-    { id: 'culture', name: 'Village Life', icon: '🏘️' },
-    { id: 'healthcare', name: 'Healthcare', icon: '🏥' },
-    { id: 'safari', name: 'Safari', icon: '🦁' },
-    { id: 'beach', name: 'Beach & Coast', icon: '🏖️' }
+    { id: 'all', name: 'All Photos' },
+    { id: 'education', name: 'Education' },
+    { id: 'farming', name: 'Farming' },
+    { id: 'culture', name: 'Village Life' },
+    { id: 'healthcare', name: 'Healthcare' },
+    { id: 'safari', name: 'Safari' },
+    { id: 'beach', name: 'Beach & Coast' }
   ];
 
-  // Simulated photo gallery with descriptions
-  const photos = [
-    {
-      id: 1,
-      category: 'education',
-      emoji: '👨‍🏫',
-      title: 'English Class with Village Children',
-      description: 'Teaching English to eager students at Mtitu Primary School',
-      location: 'Mtitu, Kenya',
-      volunteer: 'Sarah M., USA',
-      likes: 234,
-      gradient: 'from-yellow-400 to-orange-500'
-    },
-    {
-      id: 2,
-      category: 'farming',
-      emoji: '🌽',
-      title: 'Harvest Season',
-      description: 'Working alongside local farmers during maize harvest',
-      location: 'Kilifi County',
-      volunteer: 'Lars H., Sweden',
-      likes: 189,
-      gradient: 'from-green-400 to-emerald-600'
-    },
-    {
-      id: 3,
-      category: 'culture',
-      emoji: '🍲',
-      title: 'Cooking Traditional Ugali',
-      description: 'Learning to prepare authentic Kenyan dishes with host family',
-      location: 'Kwale Village',
-      volunteer: 'Maria R., Spain',
-      likes: 312,
-      gradient: 'from-red-400 to-pink-500'
-    },
-    {
-      id: 4,
-      category: 'safari',
-      emoji: '🦁',
-      title: 'Lion Pride in Maasai Mara',
-      description: 'Incredible encounter with a pride of lions during morning game drive',
-      location: 'Maasai Mara',
-      volunteer: 'James C., Singapore',
-      likes: 456,
-      gradient: 'from-amber-400 to-orange-600'
-    },
-    {
-      id: 5,
-      category: 'beach',
-      emoji: '🐬',
-      title: 'Dolphin Watching at Wasini',
-      description: 'Swimming with playful dolphins in crystal-clear waters',
-      location: 'Wasini Island',
-      volunteer: 'Sophie D., France',
-      likes: 378,
-      gradient: 'from-blue-400 to-cyan-500'
-    },
-    {
-      id: 6,
-      category: 'education',
-      emoji: '🎨',
-      title: 'Art Class Creativity',
-      description: 'Children expressing themselves through painting and drawing',
-      location: 'Kikambala School',
-      volunteer: 'Emma T., UK',
-      likes: 267,
-      gradient: 'from-purple-400 to-pink-500'
-    },
-    {
-      id: 7,
-      category: 'farming',
-      emoji: '🐔',
-      title: 'Poultry Farm Care',
-      description: 'Feeding chickens and collecting eggs at community farm',
-      location: 'Malindi',
-      volunteer: 'Tom B., Denmark',
-      likes: 198,
-      gradient: 'from-yellow-300 to-orange-400'
-    },
-    {
-      id: 8,
-      category: 'culture',
-      emoji: '👨‍👩‍👧‍👦',
-      title: 'Family Gathering',
-      description: 'Evening storytelling session with host family and neighbors',
-      location: 'Ganze Village',
-      volunteer: 'Yuki T., Japan',
-      likes: 289,
-      gradient: 'from-indigo-400 to-purple-500'
-    },
-    {
-      id: 9,
-      category: 'healthcare',
-      emoji: '💊',
-      title: 'Community Health Outreach',
-      description: 'Distributing medications and health education materials',
-      location: 'Rural Health Clinic',
-      volunteer: 'Dr. Aisha P., Canada',
-      likes: 223,
-      gradient: 'from-teal-400 to-green-500'
-    },
-    {
-      id: 10,
-      category: 'safari',
-      emoji: '🐘',
-      title: 'Red Elephants of Tsavo',
-      description: 'Majestic elephants bathing in the red dust of Tsavo',
-      location: 'Tsavo National Park',
-      volunteer: 'Michael O., Ireland',
-      likes: 401,
-      gradient: 'from-red-400 to-orange-500'
-    },
-    {
-      id: 11,
-      category: 'beach',
-      emoji: '🏖️',
-      title: 'Secret Beach Sunset',
-      description: 'Volunteers relaxing after a week of meaningful work',
-      location: 'Secret Beach',
-      volunteer: 'Anna K., Poland',
-      likes: 345,
-      gradient: 'from-orange-400 to-red-500'
-    },
-    {
-      id: 12,
-      category: 'education',
-      emoji: '⚽',
-      title: 'Sports Day Fun',
-      description: 'Playing football with students during break time',
-      location: 'Mtitu Primary',
-      volunteer: 'Lucas S., Portugal',
-      likes: 256,
-      gradient: 'from-green-400 to-blue-500'
-    },
-    {
-      id: 13,
-      category: 'farming',
-      emoji: '🥕',
-      title: 'Vegetable Garden',
-      description: 'Harvesting organic vegetables from the community garden',
-      location: 'Kilifi',
-      volunteer: 'Nina M., Germany',
-      likes: 187,
-      gradient: 'from-lime-400 to-green-500'
-    },
-    {
-      id: 14,
-      category: 'culture',
-      emoji: '🎭',
-      title: 'Traditional Dance Performance',
-      description: 'Learning traditional Kenyan dances with local youth group',
-      location: 'Kwale Cultural Center',
-      volunteer: 'Carlos V., Mexico',
-      likes: 298,
-      gradient: 'from-pink-400 to-rose-500'
-    },
-    {
-      id: 15,
-      category: 'healthcare',
-      emoji: '🩺',
-      title: 'Health Checkup Day',
-      description: 'Assisting nurses during community health screening',
-      location: 'Malindi Clinic',
-      volunteer: 'Fatima A., Morocco',
-      likes: 212,
-      gradient: 'from-blue-400 to-indigo-500'
-    },
-    {
-      id: 16,
-      category: 'safari',
-      emoji: '🦒',
-      title: 'Giraffe Encounter',
-      description: 'Up close with graceful giraffes against African sunset',
-      location: 'Maasai Mara',
-      volunteer: 'David L., Australia',
-      likes: 367,
-      gradient: 'from-yellow-400 to-orange-500'
-    },
-    {
-      id: 17,
-      category: 'beach',
-      emoji: '🤿',
-      title: 'Snorkeling Adventure',
-      description: 'Exploring vibrant coral reefs and tropical fish',
-      location: 'Wasini Marine Park',
-      volunteer: 'Isabella R., Italy',
-      likes: 334,
-      gradient: 'from-cyan-400 to-blue-500'
-    },
-    {
-      id: 18,
-      category: 'culture',
-      emoji: '🎵',
-      title: 'Music and Drums',
-      description: 'Learning to play traditional African drums',
-      location: 'Village Square',
-      volunteer: 'Andre P., Brazil',
-      likes: 245,
-      gradient: 'from-orange-400 to-red-500'
-    }
-  ];
+  // Create photo objects with optimized Cloudinary URLs
+  const photos = useMemo(() => {
+    return cloudinaryImages.map((url, index) => {
+      // Create optimized URL with Cloudinary transformations
+      const optimizedUrl = url.replace('/upload/', '/upload/w_800,h_600,c_fill,f_auto,q_auto/');
+      
+      return {
+        id: index + 1,
+        url: optimizedUrl,
+        // Distribute images evenly among categories
+        category: categories[(index % categories.length) + 1]?.id || 'culture'
+      };
+    });
+  }, []);
 
   const filteredPhotos = activeCategory === 'all' 
     ? photos 
     : photos.filter(photo => photo.category === activeCategory);
 
+  // Preload images
+  useEffect(() => {
+    photos.forEach(photo => {
+      const img = new Image();
+      img.src = photo.url;
+      img.onload = () => {
+        setLoadedImages(prev => ({ ...prev, [photo.id]: true }));
+      };
+    });
+  }, [photos]);
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-slate-100">
       {/* Hero Section */}
-      <section className="relative py-32 px-6 overflow-hidden bg-gradient-to-r from-orange-600 to-red-600">
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute inset-0" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.2) 35px, rgba(255,255,255,.2) 70px)' }}></div>
+      <section className="relative py-24 px-6 overflow-hidden bg-gradient-to-r from-orange-600 via-red-600 to-pink-600">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{ 
+            backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.1) 35px, rgba(255,255,255,.1) 70px)' 
+          }}></div>
         </div>
 
-        <div className="max-w-7xl mx-auto relative z-10 text-center text-white">
-          <div className="inline-block px-6 py-2 bg-white/20 backdrop-blur-sm rounded-full text-sm font-semibold tracking-wider mb-6">
-            MOMENTS THAT MATTER
-          </div>
-          
+        <div className="max-w-6xl mx-auto relative z-10 text-center text-white">
           <h1 
-            className="text-6xl md:text-8xl font-bold mb-6"
+            className="text-5xl md:text-7xl font-bold mb-6 tracking-tight"
             style={{ fontFamily: '"Playfair Display", serif' }}
           >
-            Photo Gallery
+            Volunteer Gallery
           </h1>
 
-          <p className="text-2xl text-orange-100 max-w-3xl mx-auto mb-8" style={{ fontFamily: '"Lora", serif' }}>
-            See the impact, joy, and adventure through the eyes of our volunteers
+          <p className="text-xl text-orange-100 max-w-2xl mx-auto mb-10 opacity-90">
+            Capturing moments that inspire and transform lives
           </p>
 
-          <div className="flex flex-wrap justify-center gap-4 text-white">
-            <div className="flex items-center gap-2 px-6 py-3 bg-white/20 backdrop-blur-sm rounded-full">
-              <Camera className="w-5 h-5" />
-              <span className="font-medium">2000+ Photos</span>
+          <div className="flex flex-wrap justify-center gap-6 text-white">
+            <div className="flex items-center gap-3 px-5 py-2 bg-white/15 backdrop-blur-sm rounded-full">
+              <Camera className="w-4 h-4" />
+              <span className="font-medium">{photos.length} Photos</span>
             </div>
-            <div className="flex items-center gap-2 px-6 py-3 bg-white/20 backdrop-blur-sm rounded-full">
-              <Users className="w-5 h-5" />
-              <span className="font-medium">500+ Volunteers</span>
+            <div className="flex items-center gap-3 px-5 py-2 bg-white/15 backdrop-blur-sm rounded-full">
+              <Users className="w-4 h-4" />
+              <span className="font-medium">Global Volunteers</span>
             </div>
-            <div className="flex items-center gap-2 px-6 py-3 bg-white/20 backdrop-blur-sm rounded-full">
-              <MapPin className="w-5 h-5" />
-              <span className="font-medium">50+ Locations</span>
+            <div className="flex items-center gap-3 px-5 py-2 bg-white/15 backdrop-blur-sm rounded-full">
+              <MapPin className="w-4 h-4" />
+              <span className="font-medium">Kenya</span>
             </div>
           </div>
         </div>
       </section>
 
       {/* Category Filter */}
-      <section className="py-12 px-6 bg-white shadow-md sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-wrap justify-center gap-3">
+      <section className="sticky top-0 z-30 py-8 px-6 bg-white/80 backdrop-blur-lg shadow-sm border-b border-gray-100">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-wrap justify-center gap-2">
             {categories.map((category) => (
               <button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
-                className={`flex items-center gap-2 px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
+                className={`px-5 py-2.5 rounded-full font-medium transition-all duration-300 ${
                   activeCategory === category.id
-                    ? 'bg-gradient-to-r from-orange-600 to-red-600 text-white shadow-lg scale-105'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-md'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                 }`}
               >
-                <span className="text-xl">{category.icon}</span>
                 {category.name}
               </button>
             ))}
@@ -284,233 +154,78 @@ const Gallery = () => {
         </div>
       </section>
 
-      {/* Photo Grid */}
-      <section className="py-16 px-6">
+      {/* Gallery Grid */}
+      <section className="py-12 px-4">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
             {filteredPhotos.map((photo, index) => (
               <div
                 key={photo.id}
-                className="group relative bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer"
-                onClick={() => setSelectedImage(photo)}
-                style={{ animation: `fadeInUp 0.6s ease-out ${index * 0.05}s both` }}
+                className="relative group overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1 bg-white"
+                style={{ 
+                  animation: `fadeInUp 0.5s ease-out ${index * 0.05}s both`,
+                  aspectRatio: '4/3'
+                }}
               >
-                {/* Image Placeholder with Gradient and Emoji */}
-                <div className={`relative h-80 bg-gradient-to-br ${photo.gradient} flex items-center justify-center overflow-hidden`}>
-                  <div className="absolute inset-0 opacity-10">
-                    <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.3) 1px, transparent 0)', backgroundSize: '40px 40px' }}></div>
-                  </div>
-                  
-                  {/* Emoji as Image Placeholder */}
-                  <div className="text-9xl transform group-hover:scale-110 transition-transform duration-500 relative z-10">
-                    {photo.emoji}
-                  </div>
+                {/* Loading Skeleton */}
+                {!loadedImages[photo.id] && (
+                  <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 animate-pulse" />
+                )}
 
-                  {/* Overlay on Hover */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                    <div className="text-white">
-                      <p className="text-sm font-semibold mb-1">Click to view details</p>
-                      <div className="flex items-center gap-4">
-                        <div className="flex items-center gap-1">
-                          <Heart className="w-4 h-4" />
-                          <span className="text-sm">{photo.likes}</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Camera className="w-4 h-4" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                {/* Image */}
+                <img
+                  src={photo.url}
+                  alt={`Volunteer moment ${photo.id}`}
+                  loading="lazy"
+                  className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${
+                    loadedImages[photo.id] ? 'opacity-100' : 'opacity-0'
+                  }`}
+                  onLoad={() => setLoadedImages(prev => ({ ...prev, [photo.id]: true }))}
+                />
 
-                {/* Photo Info */}
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2 text-gray-900" style={{ fontFamily: '"Playfair Display", serif' }}>
-                    {photo.title}
-                  </h3>
-                  <p className="text-gray-600 mb-4 line-clamp-2">
-                    {photo.description}
-                  </p>
-
-                  <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center gap-2 text-orange-600">
-                      <MapPin className="w-4 h-4" />
-                      <span className="font-medium">{photo.location}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-500">
-                      <Heart className="w-4 h-4" />
-                      <span>{photo.likes}</span>
-                    </div>
-                  </div>
-
-                  <div className="mt-4 pt-4 border-t border-gray-100">
-                    <p className="text-sm text-gray-500">
-                      <span className="font-semibold text-gray-700">By:</span> {photo.volunteer}
-                    </p>
-                  </div>
-                </div>
+                {/* Overlay Effect */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
             ))}
           </div>
 
           {filteredPhotos.length === 0 && (
             <div className="text-center py-20">
-              <div className="text-6xl mb-6">📸</div>
-              <h3 className="text-2xl font-bold text-gray-700 mb-4">No photos in this category yet</h3>
-              <p className="text-gray-500">Check back soon for more amazing moments!</p>
+              <div className="text-5xl mb-6">📸</div>
+              <h3 className="text-2xl font-semibold text-gray-700 mb-3">No photos in this category</h3>
+              <p className="text-gray-500">Select another category to view more photos</p>
             </div>
           )}
         </div>
       </section>
 
-      {/* Lightbox Modal */}
-      {selectedImage && (
-        <div 
-          className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-6"
-          onClick={() => setSelectedImage(null)}
-        >
-          <button
-            className="absolute top-6 right-6 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors duration-300"
-            onClick={() => setSelectedImage(null)}
-          >
-            <X className="w-8 h-8 text-white" />
-          </button>
-
-          <div 
-            className="max-w-6xl w-full bg-white rounded-3xl overflow-hidden shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="grid md:grid-cols-2">
-              {/* Image Side */}
-              <div className={`relative h-96 md:h-auto bg-gradient-to-br ${selectedImage.gradient} flex items-center justify-center`}>
-                <div className="absolute inset-0 opacity-10">
-                  <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.3) 1px, transparent 0)', backgroundSize: '40px 40px' }}></div>
-                </div>
-                <div className="text-9xl relative z-10">
-                  {selectedImage.emoji}
-                </div>
-              </div>
-
-              {/* Details Side */}
-              <div className="p-10">
-                <div className="flex items-start justify-between mb-6">
-                  <div>
-                    <span className="inline-block px-4 py-1 bg-orange-100 text-orange-700 rounded-full text-sm font-semibold mb-4 capitalize">
-                      {selectedImage.category}
-                    </span>
-                    <h2 className="text-4xl font-bold mb-3 text-gray-900" style={{ fontFamily: '"Playfair Display", serif' }}>
-                      {selectedImage.title}
-                    </h2>
-                  </div>
-                </div>
-
-                <p className="text-lg text-gray-700 mb-8 leading-relaxed" style={{ fontFamily: '"Lora", serif' }}>
-                  {selectedImage.description}
-                </p>
-
-                <div className="space-y-4 mb-8">
-                  <div className="flex items-center gap-3 text-gray-700">
-                    <MapPin className="w-5 h-5 text-orange-600" />
-                    <span className="font-medium">{selectedImage.location}</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-gray-700">
-                    <Users className="w-5 h-5 text-orange-600" />
-                    <span className="font-medium">{selectedImage.volunteer}</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-gray-700">
-                    <Heart className="w-5 h-5 text-orange-600" />
-                    <span className="font-medium">{selectedImage.likes} people loved this</span>
-                  </div>
-                </div>
-
-                <div className="flex gap-4">
-                  <button className="flex-1 px-6 py-3 bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-full font-semibold hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2">
-                    <Heart className="w-5 h-5" />
-                    Like Photo
-                  </button>
-                  <button className="px-6 py-3 bg-gray-100 hover:bg-gray-200 rounded-full font-semibold transition-colors duration-300 flex items-center justify-center gap-2">
-                    <Share2 className="w-5 h-5" />
-                  </button>
-                  <button className="px-6 py-3 bg-gray-100 hover:bg-gray-200 rounded-full font-semibold transition-colors duration-300 flex items-center justify-center gap-2">
-                    <Download className="w-5 h-5" />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Instagram-style CTA */}
-      <section className="py-24 px-6 bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 text-white">
+      {/* Footer CTA */}
+      <section className="py-16 px-6 bg-gradient-to-r from-gray-900 to-slate-800 text-white">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="text-6xl mb-8">📷✨</div>
-          <h2 className="text-5xl font-bold mb-6" style={{ fontFamily: '"Playfair Display", serif' }}>
-            Share Your Story
+          <h2 className="text-4xl font-bold mb-6" style={{ fontFamily: '"Playfair Display", serif' }}>
+            Be Part of the Story
           </h2>
-          <p className="text-xl mb-10 text-purple-100" style={{ fontFamily: '"Lora", serif' }}>
-            Join our volunteer family and create your own unforgettable moments in Kenya
+          <p className="text-lg text-gray-300 mb-10 max-w-2xl mx-auto">
+            Join our community of volunteers and create unforgettable memories while making a difference
           </p>
-          <button className="px-12 py-5 bg-white text-purple-700 rounded-full font-bold shadow-2xl hover:scale-105 transition-all duration-300">
-            Start Your Journey
+          <button className="px-10 py-4 bg-linear-to-r from-orange-500 to-red-500 text-white font-semibold rounded-full hover:shadow-xl hover:scale-105 transition-all duration-300">
+            Volunteer With Us
           </button>
-          <p className="mt-8 text-purple-200">
-            Follow us @mineinternationalkenya for daily inspiration
-          </p>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-5xl font-bold text-orange-600 mb-2" style={{ fontFamily: '"Playfair Display", serif' }}>
-                2,000+
-              </div>
-              <div className="text-gray-600 font-medium">Photos Shared</div>
-            </div>
-            <div>
-              <div className="text-5xl font-bold text-orange-600 mb-2" style={{ fontFamily: '"Playfair Display", serif' }}>
-                500+
-              </div>
-              <div className="text-gray-600 font-medium">Volunteers Featured</div>
-            </div>
-            <div>
-              <div className="text-5xl font-bold text-orange-600 mb-2" style={{ fontFamily: '"Playfair Display", serif' }}>
-                50+
-              </div>
-              <div className="text-gray-600 font-medium">Countries</div>
-            </div>
-            <div>
-              <div className="text-5xl font-bold text-orange-600 mb-2" style={{ fontFamily: '"Playfair Display", serif' }}>
-                10K+
-              </div>
-              <div className="text-gray-600 font-medium">Happy Moments</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
+      <style jsx>{`
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&display=swap');
         
         @keyframes fadeInUp {
           from {
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(20px);
           }
           to {
             opacity: 1;
             transform: translateY(0);
           }
-        }
-
-        .line-clamp-2 {
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
         }
       `}</style>
     </div>

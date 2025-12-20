@@ -23,6 +23,7 @@ const Home = () => {
       title: 'Education',
       description: 'Teach English, math, and creative arts to village children. Make a lasting impact on young minds.',
       image: '🎓',
+      imageUrl: 'https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_600,h_400,q_auto,f_auto/v1766082591/cile/IMG-20251216-WA0009_dvbyae.jpg',
       duration: '2-12 weeks',
       impact: '500+ children taught annually'
     },
@@ -30,6 +31,7 @@ const Home = () => {
       title: 'Farming & Agriculture',
       description: 'Work alongside local farmers, learn sustainable practices, and help cultivate community gardens.',
       image: '🌾',
+      imageUrl:"https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_600,h_400,q_auto,f_auto/v1766082514/cile/IMG-20251216-WA0042_ntpcgt.jpg",
       duration: '1-8 weeks',
       impact: '15+ farms supported'
     },
@@ -37,13 +39,15 @@ const Home = () => {
       title: 'Healthcare Support',
       description: 'Assist in rural health clinics, support medical outreach programs, and promote community wellness.',
       image: '🏥',
+      imageUrl: "https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_600,h_400,q_auto,f_auto/v1766082657/cile/IMG-20251216-WA0074_sdu5lg.jpg",
       duration: '4-16 weeks',
-      impact: '1000+ patients served'
+      impact: '300+ patients served'
     },
     {
       title: 'Village Culture',
       description: 'Immerse yourself in authentic Kenyan life, learn traditions, and build meaningful connections.',
       image: '🏘️',
+      imageUrl: "https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_600,h_400,q_auto,f_auto/v1766082625/cile/IMG-20251216-WA0067_yhwh9y.jpg",
       duration: 'Flexible',
       impact: 'Deep cultural exchange'
     }
@@ -89,18 +93,28 @@ const Home = () => {
   ];
 
   const stats = [
-    { number: '2000+', label: 'Volunteers Hosted' },
+    { number: '200+', label: 'Volunteers Hosted' },
     { number: '50+', label: 'Countries Represented' },
-    { number: '10+', label: 'Years Experience' },
+    { number: '6+', label: 'Years Experience' },
     { number: '100%', label: 'Safety Record' }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-red-50">
+    <div className="min-h-screen bg-linear-to-br from-amber-50 via-orange-50 to-red-50">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Animated Background Elements */}
-        <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0">
+          <img
+          src="https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082488/cile/IMG-20251216-WA0007_zofe3e.jpg"
+            // src="https://res.cloudinary.com/your-cloud/image/upload/w_2000,q_auto,f_auto/v1/hero-main"
+            alt="Volunteers in Kenya"
+            className="w-full h-full object-cover opacity-30"
+            style={{ filter: 'sepia(0.4) brightness(1.2)' }}
+          />
+          <div className="absolute inset-0 bg-linear-to-b from-amber-50/80 via-orange-50/70 to-red-50/80"></div>
+        </div>
+        {/* <div className="absolute inset-0 opacity-10">
           <div 
             className="absolute top-20 left-10 w-64 h-64 bg-orange-400 rounded-full blur-3xl"
             style={{ transform: `translateY(${scrollY * 0.3}px)` }}
@@ -113,7 +127,7 @@ const Home = () => {
             className="absolute top-1/2 left-1/2 w-72 h-72 bg-red-400 rounded-full blur-3xl"
             style={{ transform: `translate(-50%, -50%) translateY(${scrollY * 0.15}px)` }}
           ></div>
-        </div>
+        </div> */}
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 py-32 text-center">
           <div 
@@ -152,13 +166,13 @@ const Home = () => {
             className="flex flex-col sm:flex-row gap-6 justify-center items-center"
             style={{ animation: 'fadeInUp 1.2s ease-out 0.6s both' }}
           >
-            <button className="group px-10 py-5 bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-full text-lg font-semibold shadow-2xl hover:shadow-orange-500/50 transition-all duration-300 hover:scale-105 flex items-center gap-3">
+            <a href='/programs' className="group px-10 py-5 bg-linear-to-r from-orange-600 to-red-600 text-white rounded-full text-lg font-semibold shadow-2xl hover:shadow-orange-500/50 transition-all duration-300 hover:scale-105 flex items-center gap-3">
               Start Your Journey
               <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-300" />
-            </button>
-            <button className="px-10 py-5 bg-white text-orange-700 rounded-full text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 border-2 border-orange-200">
+            </a>
+            <a href='/about' className="px-10 py-5 bg-white text-orange-700 rounded-full text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 border-2 border-orange-200">
               Watch Our Story
-            </button>
+            </a>
           </div>
 
           {/* Floating badges */}
@@ -187,7 +201,7 @@ const Home = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 bg-gradient-to-r from-orange-700 to-red-700 text-white relative overflow-hidden">
+      <section className="py-20 bg-linear-to-r from-orange-700 to-red-700 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.1) 35px, rgba(255,255,255,.1) 70px)' }}></div>
         </div>
@@ -231,11 +245,11 @@ const Home = () => {
                 className="group relative bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
                 style={{ animation: `fadeInUp 0.8s ease-out ${index * 0.15}s both` }}
               >
-                <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-orange-500 to-red-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                <div className="absolute top-0 left-0 w-full h-2 bg-linear-to-r from-orange-500 to-red-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
                 
                 <div className="p-10">
-                  <div className="text-7xl mb-6 transform group-hover:scale-110 transition-transform duration-300">
-                    {program.image}
+                  <div className="mb-6 transform group-hover:scale-110 transition-transform duration-300">
+                    <img src={program.imageUrl} alt={program.title} className="rounded-2xl" />
                   </div>
                   
                   <h3 className="text-3xl font-bold mb-4 text-gray-900" style={{ fontFamily: '"Playfair Display", serif' }}>
@@ -256,10 +270,10 @@ const Home = () => {
                     </div>
                   </div>
 
-                  <button className="group/btn text-orange-600 font-semibold flex items-center gap-2 hover:gap-4 transition-all duration-300">
+                  <a href="programs" className="group/btn text-orange-600 font-semibold flex items-center gap-2 hover:gap-4 transition-all duration-300">
                     Learn More
                     <ArrowRight className="w-5 h-5" />
-                  </button>
+                  </a>
                 </div>
               </div>
             ))}
@@ -268,7 +282,7 @@ const Home = () => {
       </section>
 
       {/* Safari Adventures Section */}
-      <section className="py-32 px-6 bg-gradient-to-br from-amber-100 to-orange-100 relative overflow-hidden">
+      <section className="py-32 px-6 bg-linear-to-br from-amber-100 to-orange-100 relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, #f97316 1px, transparent 0)', backgroundSize: '48px 48px' }}></div>
         </div>
@@ -311,15 +325,15 @@ const Home = () => {
           </div>
 
           <div className="text-center mt-12">
-            <button className="px-10 py-5 bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-full text-lg font-semibold shadow-2xl hover:shadow-orange-500/50 transition-all duration-300 hover:scale-105">
+            <a href="/safaris" className="px-10 py-5 bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-full text-lg font-semibold shadow-2xl hover:shadow-orange-500/50 transition-all duration-300 hover:scale-105">
               Explore All Adventures
-            </button>
+            </a>
           </div>
         </div>
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-32 px-6 bg-gradient-to-br from-red-50 to-orange-50 overflow-hidden">
+      <section className="py-32 px-6 bg-linear-to-br from-red-50 to-orange-50 overflow-hidden">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-20">
             <h2 
@@ -389,7 +403,7 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-32 px-6 bg-gradient-to-r from-orange-700 via-red-700 to-orange-700 text-white relative overflow-hidden">
+      <section className="py-32 px-6 bg-linear-to-r from-orange-700 via-red-700 to-orange-700 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-0 left-0 w-96 h-96 bg-yellow-400 rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 right-0 w-96 h-96 bg-red-400 rounded-full blur-3xl"></div>
@@ -403,17 +417,17 @@ const Home = () => {
             Ready to Make Your Impact?
           </h2>
           <p className="text-2xl mb-12 text-orange-100 leading-relaxed" style={{ fontFamily: '"Lora", serif' }}>
-            Join thousands of volunteers who've found purpose, connection, and adventure in Kenya
+            Join hundreds of volunteers who've found purpose, connection, and adventure in Kenya
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <button className="group px-12 py-6 bg-white text-orange-700 rounded-full text-xl font-bold shadow-2xl hover:shadow-white/30 transition-all duration-300 hover:scale-105 flex items-center justify-center gap-3">
+            <a href='/programs' className="group px-12 py-6 bg-white text-orange-700 rounded-full text-xl font-bold shadow-2xl hover:shadow-white/30 transition-all duration-300 hover:scale-105 flex items-center justify-center gap-3">
               Apply Now
               <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />
-            </button>
-            <button className="px-12 py-6 border-2 border-white text-white rounded-full text-xl font-bold hover:bg-white hover:text-orange-700 transition-all duration-300 hover:scale-105">
+            </a>
+            <a href='/contact' className="px-12 py-6 border-2 border-white text-white rounded-full text-xl font-bold hover:bg-white hover:text-orange-700 transition-all duration-300 hover:scale-105">
               Contact Us
-            </button>
+            </a>
           </div>
 
           <div className="mt-16 flex flex-wrap justify-center gap-8 text-orange-100">
