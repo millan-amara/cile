@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { 
   Camera, Waves, Mountain, Compass, Sun, MapPin, Clock, 
   Users, DollarSign, Star, ArrowRight, Palmtree, Fish, 
@@ -8,13 +8,13 @@ import {
 const Safaris = () => {
   const [selectedSafari, setSelectedSafari] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loadedImages, setLoadedImages] = useState({});
 
   const safaris = [
     {
       id: 'maasai-mara',
       name: 'Maasai Mara Safari',
       tagline: 'Witness the Greatest Show on Earth',
-      icon: '🦁',
       hero: 'The legendary Maasai Mara National Reserve',
       description: 'Experience the world-famous Great Migration and encounter the Big Five in Kenya\'s most spectacular wildlife reserve.',
       longDescription: 'The Maasai Mara is synonymous with wildlife safari excellence. Home to an incredible concentration of animals, this ecosystem hosts the dramatic annual wildebeest migration - over 1.5 million wildebeest, zebras, and gazelles crossing the Mara River in a primal dance of survival. Beyond migration season, the Mara offers year-round exceptional game viewing with lion prides, leopards, cheetahs, elephants, and rhinos roaming the savannah.',
@@ -49,16 +49,15 @@ const Safaris = () => {
         country: 'Singapore'
       },
       images: [
-        'https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_800,h_600,q_auto,f_auto/v1/safari/maasai-mara-1',
-        'https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_800,h_600,q_auto,f_auto/v1/safari/maasai-mara-2',
-        'https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_800,h_600,q_auto,f_auto/v1/safari/maasai-mara-3'
+        'https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_800,h_600,q_auto,f_auto/v1766224547/cile/pexels-rachel-claire-4577783_uabczd.jpg',
+        'https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_800,h_600,q_auto,f_auto/v1766224547/cile/pexels-filip-olsok-261056-4003477_rtzpp2.jpg',
+        'https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_800,h_600,q_auto,f_auto/v1766224573/cile/pexels-chris-clark-1933184-16116697_tqjocz.jpg'
       ]
     },
     {
       id: 'wasini',
       name: 'Wasini Island',
       tagline: 'Paradise Beneath the Waves',
-      icon: '🐬',
       hero: 'Pristine coral reefs and playful dolphins',
       description: 'Discover an untouched island paradise with crystal-clear waters, vibrant coral reefs, and friendly dolphins in the warm Indian Ocean.',
       longDescription: 'Wasini Island is a hidden gem off Kenya\'s south coast, offering an escape to tranquility and natural beauty. This car-free island is surrounded by the Kisite-Mpunguti Marine National Park, one of East Africa\'s most pristine marine reserves. Snorkel among colorful coral gardens teeming with tropical fish, spot playful dolphins dancing in the waves, and experience the authentic coastal Swahili culture that has thrived here for centuries.',
@@ -94,16 +93,15 @@ const Safaris = () => {
         country: 'France'
       },
       images: [
-        'https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_800,h_600,q_auto,f_auto/v1/safari/wasini-1',
-        'https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_800,h_600,q_auto,f_auto/v1/safari/wasini-2',
-        'https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_800,h_600,q_auto,f_auto/v1/safari/wasini-3'
+        'https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_800,h_600,q_auto,f_auto/v1766224734/cile/pexels-hussain-naushad-164965004-35269365_pi6l0v.jpg',
+        'https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_800,h_600,q_auto,f_auto/v1766224743/cile/pexels-andromeda99-35269342_a5ykyt.jpg',
+        'https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_800,h_600,q_auto,f_auto/v1766224748/cile/pexels-magda-ehlers-pexels-32585950_pwv5ai.jpg'
       ]
     },
     {
       id: 'tsavo',
       name: 'Tsavo Safari',
       tagline: 'Land of the Red Elephants',
-      icon: '🐘',
       hero: 'Kenya\'s largest national park',
       description: 'Explore vast wilderness landscapes, famous red elephants, and diverse ecosystems in one of Africa\'s oldest and largest parks.',
       longDescription: 'Tsavo National Parks (East and West) form one of the world\'s largest protected wilderness areas, offering an authentic, less-crowded safari experience. Famous for its red elephants - who dust-bathe in the park\'s iron-rich soil - Tsavo is home to large elephant herds, lions (including the legendary man-eaters of Tsavo), and diverse landscapes from open plains to volcanic hills and palm-fringed rivers.',
@@ -139,16 +137,15 @@ const Safaris = () => {
         country: 'Ireland'
       },
       images: [
-        'https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_800,h_600,q_auto,f_auto/v1/safari/tsavo-1',
-        'https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_800,h_600,q_auto,f_auto/v1/safari/tsavo-2',
-        'https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_800,h_600,q_auto,f_auto/v1/safari/tsavo-3'
+        'https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_800,h_600,q_auto,f_auto/v1766225059/cile/pexels-pixabay-66898_kbqvpf.jpg',
+        'https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_800,h_600,q_auto,f_auto/v1766225069/cile/pexels-beatz-4913585_ih92az.jpg',
+        'https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_800,h_600,q_auto,f_auto/v1766225079/cile/pexels-beatz-5044028_c0mf2a.jpg'
       ]
     },
     {
       id: 'secret-beach',
       name: 'Secret Beach',
       tagline: 'Your Private Slice of Paradise',
-      icon: '🏖️',
       hero: 'Hidden coastal sanctuary',
       description: 'Escape to a secluded beach paradise where powder-white sand meets turquoise waters, far from tourist crowds.',
       longDescription: 'Secret Beach is exactly what its name suggests - a hidden coastal paradise known only to locals and a select few travelers. This pristine stretch of coastline features crystal-clear turquoise waters, powdery white sand, and swaying palm trees. It\'s the perfect place to unwind after volunteer work, swim in warm Indian Ocean waters, enjoy fresh tropical fruits, and watch spectacular sunsets in peaceful solitude.',
@@ -184,68 +181,39 @@ const Safaris = () => {
         country: 'Poland'
       },
       images: [
-        'https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_800,h_600,q_auto,f_auto/v1/safari/secret-beach-1',
-        'https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_800,h_600,q_auto,f_auto/v1/safari/secret-beach-2',
-        'https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_800,h_600,q_auto,f_auto/v1/safari/secret-beach-3'
-      ]
-    },
-    {
-      id: 'african-pool',
-      name: 'African Pool',
-      tagline: 'Natural Springs Oasis',
-      icon: '💧',
-      hero: 'Crystal-clear natural swimming pool',
-      description: 'Swim in pristine natural spring waters surrounded by lush vegetation and authentic African wilderness.',
-      longDescription: 'African Pool is a natural wonder - a crystal-clear spring-fed swimming pool nestled in the Kenyan countryside. Fed by underground springs, the water maintains a refreshing temperature year-round and is so clear you can see every pebble on the bottom. Surrounded by indigenous trees and local vegetation, it offers a unique swimming experience that connects you with nature in the most authentic way.',
-      duration: 'Half day',
-      bestTime: 'Year-round',
-      highlights: [
-        'Crystal-clear spring water',
-        'Natural swimming pool',
-        'Surrounding forest trails',
-        'Picnic areas',
-        'Bird watching opportunities',
-        'Photography spots',
-        'Local community interaction'
-      ],
-      activities: ['Swimming', 'Picnicking', 'Nature walks', 'Photography', 'Relaxation'],
-      accommodation: 'Day trip',
-      pricing: {
-        visit: '$40 per person'
-      },
-      included: [
-        'Transportation',
-        'Pool access',
-        'Picnic lunch',
-        'Nature guide',
-        'Changing facilities'
-      ],
-      wildlife: ['Exotic birds', 'Butterflies', 'Small mammals', 'Unique plant species'],
-      testimonial: {
-        text: 'Swimming in African Pool felt like being in a nature documentary. The water was so clear and refreshing - a true hidden gem!',
-        author: 'Lucas Silva',
-        country: 'Portugal'
-      },
-      images: [
-        'https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_800,h_600,q_auto,f_auto/v1/safari/african-pool-1',
-        'https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_800,h_600,q_auto,f_auto/v1/safari/african-pool-2',
-        'https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_800,h_600,q_auto,f_auto/v1/safari/african-pool-3'
+        'https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_800,h_600,q_auto,f_auto/v1766225241/cile/pexels-roman-odintsov-11025285_tw0gji.jpg',
+        'https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_800,h_600,q_auto,f_auto/v1766225247/cile/pexels-mwabonje-2041928_ali0tq.jpg',
+        'https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_800,h_600,q_auto,f_auto/v1766225250/cile/pexels-royal-wave-ent-781256594-20693411_okfwym.jpg'
       ]
     }
   ];
+
+  // Preload images for better UX
+  useEffect(() => {
+    safaris.forEach(safari => {
+      safari.images.forEach(imageUrl => {
+        const img = new Image();
+        img.src = imageUrl;
+        img.onload = () => {
+          setLoadedImages(prev => ({ 
+            ...prev, 
+            [imageUrl]: true 
+          }));
+        };
+      });
+    });
+  }, []);
 
   const handleViewDetails = (safariId) => {
     const safari = safaris.find(s => s.id === safariId);
     setSelectedSafari(safari);
     setIsModalOpen(true);
-    // Prevent body scroll when modal is open
     document.body.style.overflow = 'hidden';
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedSafari(null);
-    // Re-enable body scroll
     document.body.style.overflow = 'auto';
   };
 
@@ -280,7 +248,7 @@ const Safaris = () => {
           </div>
           
           <h1 
-            className="text-6xl md:text-8xl font-bold mb-6 leading-tight"
+            className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
             style={{ 
               fontFamily: '"Playfair Display", serif',
               background: 'linear-gradient(135deg, #0284c7 0%, #0d9488 50%, #06b6d4 100%)',
@@ -292,7 +260,7 @@ const Safaris = () => {
             Safari & Adventures
           </h1>
 
-          <p className="text-2xl text-gray-700 max-w-3xl mx-auto mb-12" style={{ fontFamily: '"Lora", serif' }}>
+          <p className="text-xl text-gray-700 max-w-3xl mx-auto mb-12" style={{ fontFamily: '"Lora", serif' }}>
             Complement your volunteer experience with Kenya's most breathtaking natural wonders
           </p>
 
@@ -327,16 +295,28 @@ const Safaris = () => {
                 className="group bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
                 style={{ animation: `fadeInUp 0.8s ease-out ${index * 0.1}s both` }}
               >
-                {/* Card Header */}
-                <div className="relative h-48 bg-gradient-to-br from-blue-500 to-teal-500 flex items-center justify-center overflow-hidden">
-                  <div className="absolute inset-0 opacity-20">
-                    <div className="absolute inset-0" style={{ 
-                      backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.2) 35px, rgba(255,255,255,.2) 70px)' 
-                    }}></div>
-                  </div>
-                  <div className="text-8xl transform group-hover:scale-110 transition-transform duration-300 relative z-10">
-                    {safari.icon}
-                  </div>
+                {/* Card Image */}
+                <div className="relative h-64 overflow-hidden">
+                  {/* Loading Skeleton */}
+                  {!loadedImages[safari.images[0]] && (
+                    <div className="absolute inset-0 bg-gradient-to-r from-gray-200 to-gray-300 animate-pulse" />
+                  )}
+                  
+                  {/* Main Image */}
+                  <img
+                    src={safari.images[0]}
+                    alt={`${safari.name} - ${safari.tagline}`}
+                    loading="lazy"
+                    className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${
+                      loadedImages[safari.images[0]] ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    onLoad={() => setLoadedImages(prev => ({ ...prev, [safari.images[0]]: true }))}
+                  />
+                  
+                  {/* Image Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  
+                  {/* Duration Badge */}
                   <div className="absolute bottom-4 right-4 px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-sm font-semibold text-blue-700">
                     {safari.duration}
                   </div>
@@ -344,7 +324,7 @@ const Safaris = () => {
 
                 {/* Card Content */}
                 <div className="p-8">
-                  <h3 className="text-3xl font-bold mb-2 text-gray-900" style={{ fontFamily: '"Playfair Display", serif' }}>
+                  <h3 className="text-2xl font-bold mb-2 text-gray-900" style={{ fontFamily: '"Playfair Display", serif' }}>
                     {safari.name}
                   </h3>
                   <p className="text-lg text-blue-600 font-semibold mb-4">
@@ -411,24 +391,30 @@ const Safaris = () => {
       {/* Combo Packages Section */}
       <section className="py-24 px-6 bg-gradient-to-br from-orange-50 to-red-50">
         <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-5xl font-bold mb-6 text-gray-900" style={{ fontFamily: '"Playfair Display", serif' }}>
+          <h2 className="text-4xl font-bold mb-6 text-gray-900" style={{ fontFamily: '"Playfair Display", serif' }}>
             Volunteer + Safari Packages
           </h2>
-          <p className="text-xl text-gray-700 mb-12 max-w-3xl mx-auto" style={{ fontFamily: '"Lora", serif' }}>
+          <p className="text-lg text-gray-700 mb-12 max-w-3xl mx-auto" style={{ fontFamily: '"Lora", serif' }}>
             Save money by combining your volunteer program with safari adventures
           </p>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-3xl p-10 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-              <div className="text-6xl mb-6">🎓🦁</div>
+            <div className="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+              <div className="w-full h-48 overflow-hidden rounded-xl mb-6">
+                <img 
+                  src="https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_600,h_300,q_auto,f_auto/v1766224547/cile/pexels-rachel-claire-4577783_uabczd.jpg" 
+                  alt="Teach & Explore" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <h3 className="text-2xl font-bold mb-4" style={{ fontFamily: '"Playfair Display", serif' }}>
                 Teach & Explore
               </h3>
               <p className="text-gray-600 mb-6">2 weeks teaching + 3 days Maasai Mara</p>
-              <div className="text-3xl font-bold text-orange-600 mb-6">$950</div>
-              <div className="px-4 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold inline-block mb-6">
+              <div className="text-3xl font-bold text-orange-600 mb-6">$400</div>
+              {/* <div className="px-4 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold inline-block mb-6">
                 Save $150!
-              </div>
+              </div> */}
               <button 
                 onClick={() => handleViewDetails('maasai-mara')}
                 className="w-full px-6 py-3 bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-full font-semibold hover:shadow-lg transition-all hover:scale-105"
@@ -437,40 +423,52 @@ const Safaris = () => {
               </button>
             </div>
 
-            <div className="bg-white rounded-3xl p-10 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border-4 border-blue-400 relative">
+            <div className="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border-4 border-blue-400 relative">
               <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-blue-600 text-white rounded-full text-sm font-semibold">
                 MOST POPULAR
               </div>
-              <div className="text-6xl mb-6">🌾🐬</div>
+              <div className="w-full h-48 overflow-hidden rounded-xl mb-6">
+                <img 
+                  src="https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_600,h_300,q_auto,f_auto/v1766224734/cile/pexels-hussain-naushad-164965004-35269365_pi6l0v.jpg" 
+                  alt="Farm & Coast" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <h3 className="text-2xl font-bold mb-4" style={{ fontFamily: '"Playfair Display", serif' }}>
                 Farm & Coast
               </h3>
               <p className="text-gray-600 mb-6">3 weeks farming + Wasini Island + Secret Beach</p>
-              <div className="text-3xl font-bold text-orange-600 mb-6">$850</div>
-              <div className="px-4 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold inline-block mb-6">
+              <div className="text-3xl font-bold text-orange-600 mb-6">$400</div>
+              {/* <div className="px-4 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold inline-block mb-6">
                 Save $120!
-              </div>
+              </div> */}
               <button 
                 onClick={() => handleViewDetails('wasini')}
-                className="w-full px-6 py-3 bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-full font-semibold hover:shadow-lg transition-all hover:scale-105"
+                className="w-full px-6 py-3 bg-linear-to-r from-orange-600 to-red-600 text-white rounded-full font-semibold hover:shadow-lg transition-all hover:scale-105"
               >
                 Learn More
               </button>
             </div>
 
-            <div className="bg-white rounded-3xl p-10 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-              <div className="text-6xl mb-6">🏥🏖️</div>
+            <div className="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+              <div className="w-full h-48 overflow-hidden rounded-xl mb-6">
+                <img 
+                  src="https://res.cloudinary.com/dcj3qavxy/image/upload/c_fill,w_600,h_300,q_auto,f_auto/v1766225241/cile/pexels-roman-odintsov-11025285_tw0gji.jpg" 
+                  alt="Care & Relax" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <h3 className="text-2xl font-bold mb-4" style={{ fontFamily: '"Playfair Display", serif' }}>
                 Care & Relax
               </h3>
               <p className="text-gray-600 mb-6">4 weeks healthcare + Beach retreat</p>
-              <div className="text-3xl font-bold text-orange-600 mb-6">$980</div>
-              <div className="px-4 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold inline-block mb-6">
+              <div className="text-3xl font-bold text-orange-600 mb-6">$400</div>
+              {/* <div className="px-4 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold inline-block mb-6">
                 Save $100!
-              </div>
+              </div> */}
               <button 
                 onClick={() => handleViewDetails('secret-beach')}
-                className="w-full px-6 py-3 bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-full font-semibold hover:shadow-lg transition-all hover:scale-105"
+                className="w-full px-6 py-3 bg-linear-to-r from-orange-600 to-red-600 text-white rounded-full font-semibold hover:shadow-lg transition-all hover:scale-105"
               >
                 Learn More
               </button>
@@ -480,22 +478,14 @@ const Safaris = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 px-6 bg-gradient-to-r from-blue-700 to-teal-700 text-white">
+      <section className="py-24 px-6 bg-linear-to-r from-blue-700 to-teal-700 text-white">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-5xl font-bold mb-6" style={{ fontFamily: '"Playfair Display", serif' }}>
+          <h2 className="text-4xl font-bold mb-6" style={{ fontFamily: '"Playfair Display", serif' }}>
             Ready for Your Kenyan Adventure?
           </h2>
-          <p className="text-xl mb-10 text-blue-100" style={{ fontFamily: '"Lora", serif' }}>
+          <p className="text-lg mb-10 text-blue-100" style={{ fontFamily: '"Lora", serif' }}>
             Book your safari experience or create a custom package today
           </p>
-          {/* <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <button className="px-10 py-5 bg-white text-blue-700 rounded-full font-bold shadow-2xl hover:scale-105 transition-all duration-300 hover:shadow-white/30">
-              Book Safari
-            </button>
-            <button className="px-10 py-5 border-2 border-white rounded-full font-bold hover:bg-white hover:text-blue-700 transition-all duration-300 hover:scale-105">
-              Custom Package
-            </button>
-          </div> */}
           <p className="mt-8 text-blue-200 text-2xl">
             Call us at +254 796 667-249
           </p>
@@ -526,18 +516,42 @@ const Safaris = () => {
                 </button>
 
                 {/* Modal Header */}
-                <div className="relative h-64 md:h-96 bg-gradient-to-r from-blue-600 to-teal-600">
-                  <div className="absolute inset-0 opacity-20">
-                    <div className="absolute inset-0" style={{ 
-                      backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.2) 35px, rgba(255,255,255,.2) 70px)' 
-                    }}></div>
+                <div className="relative">
+                  {/* Image Carousel */}
+                  <div className="relative h-80 md:h-96 overflow-hidden">
+                    {selectedSafari.images.map((image, index) => (
+                      <div 
+                        key={index}
+                        className={`absolute inset-0 transition-opacity duration-500 ${
+                          index === 0 ? 'opacity-100' : 'opacity-0'
+                        }`}
+                      >
+                        <img
+                          src={image}
+                          alt={`${selectedSafari.name} - Image ${index + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                      </div>
+                    ))}
+                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
+                      {selectedSafari.images.map((_, index) => (
+                        <div 
+                          key={index}
+                          className={`w-2 h-2 rounded-full ${
+                            index === 0 ? 'bg-white' : 'bg-white/50'
+                          }`}
+                        />
+                      ))}
+                    </div>
                   </div>
-                  <div className="relative h-full flex flex-col justify-center items-center text-white p-8">
-                    <div className="text-8xl mb-6">{selectedSafari.icon}</div>
-                    <h2 className="text-4xl md:text-6xl font-bold text-center mb-4" style={{ fontFamily: '"Playfair Display", serif' }}>
+                  
+                  {/* Title Overlay */}
+                  <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+                    <h2 className="text-3xl md:text-5xl font-bold mb-2" style={{ fontFamily: '"Playfair Display", serif' }}>
                       {selectedSafari.name}
                     </h2>
-                    <p className="text-xl md:text-2xl text-blue-100 text-center">{selectedSafari.tagline}</p>
+                    <p className="text-lg md:text-xl text-blue-100">{selectedSafari.tagline}</p>
                   </div>
                 </div>
 
@@ -548,18 +562,18 @@ const Safaris = () => {
                     <div className="lg:col-span-2 space-y-12">
                       {/* About */}
                       <div>
-                        <h3 className="text-3xl font-bold mb-6 text-gray-900" style={{ fontFamily: '"Playfair Display", serif' }}>
+                        <h3 className="text-2xl font-bold mb-6 text-gray-900" style={{ fontFamily: '"Playfair Display", serif' }}>
                           Experience Overview
                         </h3>
-                        <p className="text-lg text-gray-700 leading-relaxed" style={{ fontFamily: '"Lora", serif' }}>
+                        <p className="text-gray-700 leading-relaxed" style={{ fontFamily: '"Lora", serif' }}>
                           {selectedSafari.longDescription}
                         </p>
                       </div>
 
                       {/* Highlights */}
                       <div className="bg-gradient-to-br from-blue-50 to-teal-50 rounded-3xl p-8">
-                        <h3 className="text-3xl font-bold mb-6 text-gray-900 flex items-center gap-3" style={{ fontFamily: '"Playfair Display", serif' }}>
-                          <Compass className="w-8 h-8 text-blue-600" />
+                        <h3 className="text-2xl font-bold mb-6 text-gray-900 flex items-center gap-3" style={{ fontFamily: '"Playfair Display", serif' }}>
+                          <Compass className="w-6 h-6 text-blue-600" />
                           Experience Highlights
                         </h3>
                         <div className="grid md:grid-cols-2 gap-4">
@@ -574,7 +588,7 @@ const Safaris = () => {
 
                       {/* Activities */}
                       <div>
-                        <h3 className="text-3xl font-bold mb-6 text-gray-900" style={{ fontFamily: '"Playfair Display", serif' }}>
+                        <h3 className="text-2xl font-bold mb-6 text-gray-900" style={{ fontFamily: '"Playfair Display", serif' }}>
                           Activities Included
                         </h3>
                         <div className="flex flex-wrap gap-3">
@@ -589,13 +603,13 @@ const Safaris = () => {
                       {/* Wildlife */}
                       {selectedSafari.wildlife.length > 0 && (
                         <div className="bg-green-50 rounded-3xl p-8 border-2 border-green-200">
-                          <h3 className="text-3xl font-bold mb-6 text-gray-900 flex items-center gap-3" style={{ fontFamily: '"Playfair Display", serif' }}>
-                            <Bird className="w-8 h-8 text-green-600" />
+                          <h3 className="text-2xl font-bold mb-6 text-gray-900 flex items-center gap-3" style={{ fontFamily: '"Playfair Display", serif' }}>
+                            <Bird className="w-6 h-6 text-green-600" />
                             Wildlife & Marine Life
                           </h3>
                           <div className="flex flex-wrap gap-3">
                             {selectedSafari.wildlife.map((animal, idx) => (
-                              <div key={idx} className="px-5 py-2 bg-white rounded-full text-gray-700 font-medium shadow-sm border border-green-200">
+                              <div key={idx} className="px-4 py-2 bg-white rounded-full text-gray-700 font-medium shadow-sm border border-green-200">
                                 {animal}
                               </div>
                             ))}
@@ -605,13 +619,13 @@ const Safaris = () => {
 
                       {/* What's Included */}
                       <div>
-                        <h3 className="text-3xl font-bold mb-6 text-gray-900" style={{ fontFamily: '"Playfair Display", serif' }}>
+                        <h3 className="text-2xl font-bold mb-6 text-gray-900" style={{ fontFamily: '"Playfair Display", serif' }}>
                           Package Includes
                         </h3>
                         <div className="grid md:grid-cols-2 gap-4">
                           {selectedSafari.included.map((item, idx) => (
                             <div key={idx} className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl">
-                              <Check className="w-6 h-6 text-green-600 shrink-0 mt-1" />
+                              <Check className="w-5 h-5 text-green-600 shrink-0 mt-1" />
                               <span className="text-gray-700">{item}</span>
                             </div>
                           ))}
@@ -622,18 +636,18 @@ const Safaris = () => {
                       <div className="bg-gradient-to-br from-blue-600 to-teal-600 rounded-3xl p-8 text-white shadow-xl">
                         <div className="flex mb-4">
                           {[...Array(5)].map((_, i) => (
-                            <Star key={i} className="w-6 h-6 fill-white" />
+                            <Star key={i} className="w-5 h-5 fill-white" />
                           ))}
                         </div>
-                        <blockquote className="text-xl md:text-2xl italic mb-6 leading-relaxed" style={{ fontFamily: '"Lora", serif' }}>
+                        <blockquote className="text-lg italic mb-6 leading-relaxed" style={{ fontFamily: '"Lora", serif' }}>
                           "{selectedSafari.testimonial.text}"
                         </blockquote>
                         <div className="flex items-center gap-4">
-                          <div className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center text-xl">
+                          <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
                             👤
                           </div>
                           <div>
-                            <div className="font-bold text-lg">{selectedSafari.testimonial.author}</div>
+                            <div className="font-bold">{selectedSafari.testimonial.author}</div>
                             <div className="text-blue-100">{selectedSafari.testimonial.country}</div>
                           </div>
                         </div>
@@ -644,13 +658,13 @@ const Safaris = () => {
                     <div className="space-y-8">
                       {/* Booking Card */}
                       <div className="bg-white rounded-3xl p-8 shadow-xl border-2 border-blue-100">
-                        <h3 className="text-2xl font-bold mb-6 text-gray-900" style={{ fontFamily: '"Playfair Display", serif' }}>
+                        <h3 className="text-xl font-bold mb-6 text-gray-900" style={{ fontFamily: '"Playfair Display", serif' }}>
                           Quick Info
                         </h3>
 
                         <div className="space-y-6 mb-8">
                           <div className="flex items-start gap-4">
-                            <Clock className="w-6 h-6 text-blue-600 flex-shrink-0" />
+                            <Clock className="w-5 h-5 text-blue-600 flex-shrink-0" />
                             <div>
                               <div className="font-semibold text-gray-900 mb-1">Duration</div>
                               <div className="text-gray-700">{selectedSafari.duration}</div>
@@ -658,7 +672,7 @@ const Safaris = () => {
                           </div>
 
                           <div className="flex items-start gap-4">
-                            <Sun className="w-6 h-6 text-blue-600 flex-shrink-0" />
+                            <Sun className="w-5 h-5 text-blue-600 flex-shrink-0" />
                             <div>
                               <div className="font-semibold text-gray-900 mb-1">Best Time</div>
                               <div className="text-gray-700">{selectedSafari.bestTime}</div>
@@ -666,7 +680,7 @@ const Safaris = () => {
                           </div>
 
                           <div className="flex items-start gap-4">
-                            <MapPin className="w-6 h-6 text-blue-600 flex-shrink-0" />
+                            <MapPin className="w-5 h-5 text-blue-600 flex-shrink-0" />
                             <div>
                               <div className="font-semibold text-gray-900 mb-1">Accommodation</div>
                               <div className="text-gray-700">{selectedSafari.accommodation}</div>
@@ -674,24 +688,7 @@ const Safaris = () => {
                           </div>
                         </div>
 
-                        {/* <div className="pt-6 border-t-2 border-gray-100">
-                          <div className="flex items-center gap-2 mb-4">
-                            <DollarSign className="w-6 h-6 text-blue-600" />
-                            <h4 className="font-bold text-gray-900">Pricing</h4>
-                          </div>
-                          <div className="space-y-3 mb-6">
-                            {Object.entries(selectedSafari.pricing).map(([duration, price], idx) => (
-                              <div key={idx} className="flex justify-between items-center p-4 bg-blue-50 rounded-xl">
-                                <span className="text-gray-700 capitalize font-medium">
-                                  {duration.replace(/([A-Z])/g, ' $1').trim()}
-                                </span>
-                                <span className="font-bold text-blue-600 text-lg">{price}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div> */}
-
-                        {/* <button className="w-full px-8 py-4 bg-gradient-to-r from-blue-600 to-teal-600 text-white rounded-full font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2 group/book">
+                        {/* <button className="w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-teal-600 text-white rounded-full font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2 group/book">
                           Book This Adventure
                           <ArrowRight className="w-5 h-5 group-hover/book:translate-x-1 transition-transform duration-300" />
                         </button> */}
@@ -700,17 +697,6 @@ const Safaris = () => {
                           Can be combined with volunteer programs
                         </p>
                       </div>
-
-                      {/* Quick Contact */}
-                      {/* <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-3xl p-8 border-2 border-orange-200">
-                        <h3 className="text-xl font-bold mb-4 text-gray-900">Questions?</h3>
-                        <p className="text-gray-600 mb-6">
-                          Contact our safari experts for personalized advice
-                        </p>
-                        <button className="w-full px-6 py-3 bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-full font-semibold hover:shadow-lg transition-all hover:scale-105">
-                          Contact Safari Expert
-                        </button>
-                      </div> */}
                     </div>
                   </div>
                 </div>
