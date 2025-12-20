@@ -3,39 +3,13 @@ import React from 'react';
 import { FaHandsHelping, FaHeart, FaUsers, FaGlobeAfrica, FaAward, FaShieldAlt } from 'react-icons/fa';
 
 const About = () => {
-  const teamMembers = [
-    {
-      name: "Mine Founder",
-      role: "Founder & Director",
-      bio: "Born and raised in Kenya, Mine has dedicated her life to community development and cultural exchange. With 8+ years of experience in international volunteering.",
-      image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-    },
-    {
-      name: "John Kamau",
-      role: "Program Coordinator",
-      bio: "Expert in sustainable development projects with a background in social work. Fluent in English, Swahili, and Maasai.",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-    },
-    {
-      name: "Sarah Akinyi",
-      role: "Community Liaison",
-      bio: "Connects volunteers with local communities. Specializes in cultural immersion and homestay coordination.",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-    },
-    {
-      name: "David Omondi",
-      role: "Safari Guide & Safety Officer",
-      bio: "Certified safari guide with 10+ years experience. Ensures safety and memorable experiences for all volunteers.",
-      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-    }
-  ];
 
   const milestones = [
-    { year: "2015", event: "Mine International Volunteering founded", description: "Started with 2 volunteers in a single community" },
-    { year: "2017", event: "Expanded to multiple programs", description: "Added healthcare and environmental conservation projects" },
-    { year: "2019", event: "Safari tours integration", description: "Began offering safari packages to volunteers" },
-    { year: "2021", event: "Digital transformation", description: "Launched online booking and payment system" },
-    { year: "2023", event: "500+ volunteers milestone", description: "Hosted volunteers from 30+ countries worldwide" }
+    { year: "2021", event: "Cile International Volunteering founded", description: "Started with 2 volunteers in a single community" },
+    { year: "2022", event: "Expanded to multiple programs", description: "Added healthcare and environmental conservation projects" },
+    { year: "2023", event: "Safari tours integration", description: "Began offering safari packages to volunteers" },
+    { year: "2024", event: "Digital transformation", description: "Gained an authoritative online presence" },
+    { year: "2025", event: "500+ volunteers milestone", description: "Hosted volunteers from 30+ countries worldwide" }
   ];
 
   const values = [
@@ -90,10 +64,10 @@ const About = () => {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">Why Mine International Volunteering?</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">Why Cile International Volunteering?</h2>
             <div className="max-w-4xl mx-auto">
               <p className="text-xl text-gray-600 mb-6">
-                Founded by Mine, a passionate Kenyan community leader, our organization was born from a simple vision: 
+                Founded by Nelima, a passionate Kenyan community leader, our organization was born from a simple vision: 
                 to create meaningful connections between international volunteers and Kenyan communities while ensuring 
                 authentic cultural exchange and sustainable impact.
               </p>
@@ -207,33 +181,7 @@ const About = () => {
       </section>
 
       {/* Meet the Team */}
-      <section className="py-16 bg-green-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Meet Our Team</h2>
-            <p className="text-xl text-gray-600">The passionate individuals behind your Kenyan experience</p>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {teamMembers.map((member, index) => (
-              <div key={index} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2">
-                <div className="h-64 overflow-hidden">
-                  <img 
-                    src={member.image} 
-                    alt={member.name}
-                    className="w-full h-full object-cover hover:scale-110 transition duration-500"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-1">{member.name}</h3>
-                  <p className="text-green-600 font-semibold mb-3">{member.role}</p>
-                  <p className="text-gray-600">{member.bio}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Impact Stats */}
       <section className="py-16 bg-gradient-to-r from-green-600 to-green-800 text-white">
@@ -306,12 +254,12 @@ const About = () => {
             Join hundreds of volunteers who have experienced authentic Kenya through meaningful work and unforgettable adventures
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-green-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-green-700 transition duration-300 transform hover:scale-105">
+            {/* <button className="bg-green-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-green-700 transition duration-300 transform hover:scale-105">
               Apply Now
-            </button>
-            <button className="bg-transparent border-2 border-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-white hover:text-gray-900 transition duration-300">
+            </button> */}
+            <a href='/contact' className="bg-transparent border-2 border-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-white hover:text-gray-900 transition duration-300">
               Contact Us
-            </button>
+            </a>
           </div>
         </div>
       </section>
