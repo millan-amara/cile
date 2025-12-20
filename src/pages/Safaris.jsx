@@ -2,13 +2,14 @@ import { useState, useEffect, useMemo } from 'react';
 import { 
   Camera, Waves, Mountain, Compass, Sun, MapPin, Clock, 
   Users, DollarSign, Star, ArrowRight, Palmtree, Fish, 
-  Bird, Check, X, Calendar, Shield, Heart, Globe
+  Bird, Check, X, Calendar, Shield, Heart, Globe, ChevronLeft, ChevronRight
 } from 'lucide-react';
 
 const Safaris = () => {
   const [selectedSafari, setSelectedSafari] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loadedImages, setLoadedImages] = useState({});
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const safaris = [
     {
@@ -207,6 +208,7 @@ const Safaris = () => {
   const handleViewDetails = (safariId) => {
     const safari = safaris.find(s => s.id === safariId);
     setSelectedSafari(safari);
+    setCurrentImageIndex(0); // Reset to first image
     setIsModalOpen(true);
     document.body.style.overflow = 'hidden';
   };
@@ -214,8 +216,36 @@ const Safaris = () => {
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedSafari(null);
+    setCurrentImageIndex(0);
     document.body.style.overflow = 'auto';
   };
+
+  const nextImage = () => {
+    if (selectedSafari) {
+      setCurrentImageIndex((prevIndex) => 
+        prevIndex === selectedSafari.images.length - 1 ? 0 : prevIndex + 1
+      );
+    }
+  };
+
+  const prevImage = () => {
+    if (selectedSafari) {
+      setCurrentImageIndex((prevIndex) => 
+        prevIndex === 0 ? selectedSafari.images.length - 1 : prevIndex - 1
+      );
+    }
+  };
+
+  // Auto-advance carousel every 5 seconds
+  useEffect(() => {
+    if (!isModalOpen || !selectedSafari) return;
+    
+    const interval = setInterval(() => {
+      nextImage();
+    }, 5000);
+    
+    return () => clearInterval(interval);
+  }, [isModalOpen, selectedSafari, currentImageIndex]);
 
   // Close modal on escape key
   useEffect(() => {
@@ -411,10 +441,10 @@ const Safaris = () => {
                 Teach & Explore
               </h3>
               <p className="text-gray-600 mb-6">2 weeks teaching + 3 days Maasai Mara</p>
-              <div className="text-3xl font-bold text-orange-600 mb-6">$400</div>
-              {/* <div className="px-4 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold inline-block mb-6">
+              <div className="text-3xl font-bold text-orange-600 mb-6">$950</div>
+              <div className="px-4 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold inline-block mb-6">
                 Save $150!
-              </div> */}
+              </div>
               <button 
                 onClick={() => handleViewDetails('maasai-mara')}
                 className="w-full px-6 py-3 bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-full font-semibold hover:shadow-lg transition-all hover:scale-105"
@@ -438,13 +468,13 @@ const Safaris = () => {
                 Farm & Coast
               </h3>
               <p className="text-gray-600 mb-6">3 weeks farming + Wasini Island + Secret Beach</p>
-              <div className="text-3xl font-bold text-orange-600 mb-6">$400</div>
-              {/* <div className="px-4 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold inline-block mb-6">
+              <div className="text-3xl font-bold text-orange-600 mb-6">$850</div>
+              <div className="px-4 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold inline-block mb-6">
                 Save $120!
-              </div> */}
+              </div>
               <button 
                 onClick={() => handleViewDetails('wasini')}
-                className="w-full px-6 py-3 bg-linear-to-r from-orange-600 to-red-600 text-white rounded-full font-semibold hover:shadow-lg transition-all hover:scale-105"
+                className="w-full px-6 py-3 bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-full font-semibold hover:shadow-lg transition-all hover:scale-105"
               >
                 Learn More
               </button>
@@ -462,13 +492,13 @@ const Safaris = () => {
                 Care & Relax
               </h3>
               <p className="text-gray-600 mb-6">4 weeks healthcare + Beach retreat</p>
-              <div className="text-3xl font-bold text-orange-600 mb-6">$400</div>
-              {/* <div className="px-4 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold inline-block mb-6">
+              <div className="text-3xl font-bold text-orange-600 mb-6">$980</div>
+              <div className="px-4 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold inline-block mb-6">
                 Save $100!
-              </div> */}
+              </div>
               <button 
                 onClick={() => handleViewDetails('secret-beach')}
-                className="w-full px-6 py-3 bg-linear-to-r from-orange-600 to-red-600 text-white rounded-full font-semibold hover:shadow-lg transition-all hover:scale-105"
+                className="w-full px-6 py-3 bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-full font-semibold hover:shadow-lg transition-all hover:scale-105"
               >
                 Learn More
               </button>
@@ -478,7 +508,7 @@ const Safaris = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 px-6 bg-linear-to-r from-blue-700 to-teal-700 text-white">
+      <section className="py-24 px-6 bg-gradient-to-r from-blue-700 to-teal-700 text-white">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-6" style={{ fontFamily: '"Playfair Display", serif' }}>
             Ready for Your Kenyan Adventure?
@@ -509,13 +539,13 @@ const Safaris = () => {
                 {/* Close Button */}
                 <button
                   onClick={closeModal}
-                  className="absolute top-6 right-6 z-20 p-3 bg-white rounded-full shadow-xl hover:bg-gray-100 hover:scale-110 transition-all duration-300"
+                  className="absolute top-6 right-6 z-30 p-3 bg-white rounded-full shadow-xl hover:bg-gray-100 hover:scale-110 transition-all duration-300"
                   aria-label="Close modal"
                 >
                   <X className="w-6 h-6 text-gray-700" />
                 </button>
 
-                {/* Modal Header */}
+                {/* Modal Header - Carousel */}
                 <div className="relative">
                   {/* Image Carousel */}
                   <div className="relative h-80 md:h-96 overflow-hidden">
@@ -523,7 +553,7 @@ const Safaris = () => {
                       <div 
                         key={index}
                         className={`absolute inset-0 transition-opacity duration-500 ${
-                          index === 0 ? 'opacity-100' : 'opacity-0'
+                          index === currentImageIndex ? 'opacity-100' : 'opacity-0 pointer-events-none'
                         }`}
                       >
                         <img
@@ -534,20 +564,57 @@ const Safaris = () => {
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                       </div>
                     ))}
-                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
+                    
+                    {/* Navigation Buttons */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        prevImage();
+                      }}
+                      className="absolute left-4 top-1/2 transform -translate-y-1/2 p-2 bg-white/80 hover:bg-white rounded-full shadow-lg transition-all duration-300 hover:scale-110 z-20"
+                      aria-label="Previous image"
+                    >
+                      <ChevronLeft className="w-6 h-6 text-gray-800" />
+                    </button>
+                    
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        nextImage();
+                      }}
+                      className="absolute right-4 top-1/2 transform -translate-y-1/2 p-2 bg-white/80 hover:bg-white rounded-full shadow-lg transition-all duration-300 hover:scale-110 z-20"
+                      aria-label="Next image"
+                    >
+                      <ChevronRight className="w-6 h-6 text-gray-800" />
+                    </button>
+                    
+                    {/* Dots Indicator */}
+                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
                       {selectedSafari.images.map((_, index) => (
-                        <div 
+                        <button
                           key={index}
-                          className={`w-2 h-2 rounded-full ${
-                            index === 0 ? 'bg-white' : 'bg-white/50'
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setCurrentImageIndex(index);
+                          }}
+                          className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                            index === currentImageIndex 
+                              ? 'bg-white scale-125' 
+                              : 'bg-white/50 hover:bg-white/80'
                           }`}
+                          aria-label={`Go to image ${index + 1}`}
                         />
                       ))}
+                    </div>
+                    
+                    {/* Image Counter */}
+                    <div className="absolute top-4 right-4 px-3 py-1 bg-black/50 text-white rounded-full text-sm font-medium z-20">
+                      {currentImageIndex + 1} / {selectedSafari.images.length}
                     </div>
                   </div>
                   
                   {/* Title Overlay */}
-                  <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+                  <div className="absolute bottom-0 left-0 right-0 p-8 text-white z-10">
                     <h2 className="text-3xl md:text-5xl font-bold mb-2" style={{ fontFamily: '"Playfair Display", serif' }}>
                       {selectedSafari.name}
                     </h2>
@@ -688,10 +755,10 @@ const Safaris = () => {
                           </div>
                         </div>
 
-                        {/* <button className="w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-teal-600 text-white rounded-full font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2 group/book">
+                        <button className="w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-teal-600 text-white rounded-full font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2 group/book">
                           Book This Adventure
                           <ArrowRight className="w-5 h-5 group-hover/book:translate-x-1 transition-transform duration-300" />
-                        </button> */}
+                        </button>
 
                         <p className="text-sm text-gray-500 text-center mt-4">
                           Can be combined with volunteer programs
