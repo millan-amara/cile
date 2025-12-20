@@ -104,7 +104,7 @@ const Home = () => {
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Animated Background Elements */}
-        <div className="absolute inset-0">
+        {/* <div className="absolute inset-0">
           <img
           src="https://res.cloudinary.com/dcj3qavxy/image/upload/v1766082488/cile/IMG-20251216-WA0007_zofe3e.jpg"
             // src="https://res.cloudinary.com/your-cloud/image/upload/w_2000,q_auto,f_auto/v1/hero-main"
@@ -113,8 +113,8 @@ const Home = () => {
             style={{ filter: 'sepia(0.4) brightness(1.2)' }}
           />
           <div className="absolute inset-0 bg-linear-to-b from-amber-50/80 via-orange-50/70 to-red-50/80"></div>
-        </div>
-        {/* <div className="absolute inset-0 opacity-10">
+        </div> */}
+        <div className="absolute inset-0 opacity-10">
           <div 
             className="absolute top-20 left-10 w-64 h-64 bg-orange-400 rounded-full blur-3xl"
             style={{ transform: `translateY(${scrollY * 0.3}px)` }}
@@ -127,7 +127,7 @@ const Home = () => {
             className="absolute top-1/2 left-1/2 w-72 h-72 bg-red-400 rounded-full blur-3xl"
             style={{ transform: `translate(-50%, -50%) translateY(${scrollY * 0.15}px)` }}
           ></div>
-        </div> */}
+        </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 py-32 text-center">
           <div 
